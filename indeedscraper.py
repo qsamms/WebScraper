@@ -1,10 +1,8 @@
-from urllib import response
-import requests
-import selenium 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys 
-from bs4 import BeautifulSoup
-import urllib3
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+
 
 print("Please only enter 1 space between words")
 jobsearch = input("What kind of jobs are you looking for?")
@@ -14,26 +12,38 @@ location = input("What location?")
 stripped = location.strip()
 fixedlocation = stripped.replace(" ","%20")
 
-s = requests.Session()
+driver = webdriver.Chrome()
 indeedURL = "https://www.indeed.com/jobs?q="+fixedjob+"&l="+fixedlocation
+driver.get(indeedURL)
 print(indeedURL)
-indeedPage = s.get(indeedURL)
-indeedSoup = BeautifulSoup(indeedPage.content,"html.parser")
 
-indeedJobs = indeedSoup.find_all("div", class_ = "job_seen_beacon")
+Jobs = driver.find_elements(By.XPATH,'//div[@class="job_seen_beacon"]')
 
+titles = []
+for job in Jobs:
+    titles.append(job.find_element(By.TAG_NAME,'a'))
 
-for job in indeedJobs:
-    companyTitleInfo = job.find("a", class_ = "jcs-JobTitle")
-    jobTitle = companyTitleInfo.find("span")
-    companyInfo = job.find("div", class_ = "heading6 company_location tapItem-gutter companyInfo")
-    companyname = companyInfo.find("a", class_ = "turnstileLink companyOverviewLink")
-    if companyname == None:
-        companyname = companyInfo.find("span", class_ = "companyName")
-    location = companyInfo.find("div", class_ = "companyLocation")
+infos = driver.find_elements(By.XPATH,'//div[@class="heading6 company_location tapItem-gutter companyInfo"]')
 
-    print(f"Job Title: {jobTitle.text}")
-    print(f"Company: {companyname.text}")
-    print(f"Location: {location.text}")
+for i in range(len(infos)):
+    print(titles[i].text)
+    print(infos[i].text)
     print()
+
+driver.quit()
+quit()
+for job in Jobs:
+    link = job.find_element(By.TAG_NAME,'a')
+    moreInfo = job.find_element(By.XPATH,'//div[@class="heading6 company_location tapItem-gutter companyInfo"]')
+    jobTitle = link.find_element(By.TAG_NAME,'span')
+    companyName = moreInfo.find_element(By.CLASS_NAME,'companyName')
+    companystring = companyName.find_element(By.TAG_NAME,'a')
+    location = moreInfo.find_element(By.CLASS_NAME,'companyLocation')
+    
+    print(jobTitle.text)
+    print(companystring.text)
+    print(location.text)
+    print()
+    
+
     
