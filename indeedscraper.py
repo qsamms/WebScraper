@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-
+import time
 
 print("Please only enter 1 space between words")
 jobsearch = input("What kind of jobs are you looking for?")
@@ -32,18 +32,5 @@ for i in range(len(infos)):
 
 driver.quit()
 quit()
-for job in Jobs:
-    link = job.find_element(By.TAG_NAME,'a')
-    moreInfo = job.find_element(By.XPATH,'//div[@class="heading6 company_location tapItem-gutter companyInfo"]')
-    jobTitle = link.find_element(By.TAG_NAME,'span')
-    companyName = moreInfo.find_element(By.CLASS_NAME,'companyName')
-    companystring = companyName.find_element(By.TAG_NAME,'a')
-    location = moreInfo.find_element(By.CLASS_NAME,'companyLocation')
-    
-    print(jobTitle.text)
-    print(companystring.text)
-    print(location.text)
-    print()
-    
 
-    
+
