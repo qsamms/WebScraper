@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-from helpers import *
 import time
 
 print("Please only enter 1 space between words")
@@ -46,6 +45,9 @@ for job in Jobs:
     titles.append(job.find_element(By.TAG_NAME,'a'))
 infos = driver.find_elements(By.XPATH,'//div[@class="heading6 company_location tapItem-gutter companyInfo"]')
 salaryInfos = driver.find_elements(By.XPATH,'//div[@class="heading6 tapItem-gutter metadataContainer noJEMChips salaryOnly"]')
+
+def reverse(x):
+    return x[::-1]
 
 for i in range(len(infos)):
         rating = ""
@@ -120,13 +122,8 @@ for i in range(len(infos)):
                 matches += 1
                 print(word)
         print(f"Apply here: {linkdisplay}")
-
-        if(correctrating != "N/A"):
-            score = calculateScore(float(correctrating),matches)
-            print("Calculated Compaitbility: " + str(score))
-        else:
-            score = calculateScore(0,matches)
-            print("Calculated Compaitbility: " + str(score))
+        
+        print("Compatibility: " + str(matches))
         print('\n\n')
 
         if(i < len(infos) - 1):
