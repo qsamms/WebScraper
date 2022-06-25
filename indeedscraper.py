@@ -99,7 +99,10 @@ for i in range(len(infos)):
         linkcontainer = driver.find_element(By.XPATH,'//div[@id="viewJobButtonLinkContainer"]')
         link = linkcontainer.find_element(By.TAG_NAME,'a')
         linkdisplay = link.get_attribute("href")
-    except nosuchelementexcpetion:
+    except NoSuchElementException:
+        linkcontainer = driver.find_element(By.XPATH,'//div[@class="ia-IndeedApplyButton"]')
+        link = linkcontainer.find_element(By.TAG_NAME,'span')
+        linkdisplay = link.get_attribute("data-indeed-apply-joburl")
         
     description = driver.find_element(By.XPATH,'//div[@class="jobsearch-jobDescriptionText"]').text
     driver.switch_to.parent_frame()
