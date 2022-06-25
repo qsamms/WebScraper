@@ -114,24 +114,23 @@ for i in range(len(infos)):
             wholethingwithoutspaces = wholethingstripped.replace(" ","")
             search = wholethingwithoutspaces.lower()
 
-        print(wholething)
-        print('Your Skills/Needs that match with this Company:')
+        everything = wholething + "\nYour Skills/Needs that match with this Company: \n"
         matches = 0
         for word in fixedwords:
             if word in search:
                 matches += 1
                 print(word)
-        print(f"Apply here: {linkdisplay}")
+        if(matches == 0):
+            everything = everything + "No matches\n"
+        everything = everything + "Apply here: " + linkdisplay + "\n"
         
-        print("Compatibility: " + str(matches))
-        print('\n\n')
+        everything = everything + "Compatibility Matches: " + str(matches) + '\n\n'
+        print(everything)
 
         if(i < len(infos) - 1):
             element2 = WebDriverWait(driver,30).until(EC.element_to_be_clickable((titles[i+1])))
             titles[i+1].click()
 
-time.sleep(10000000)
+time.sleep(120)
 driver.quit()
 quit()
-
-
